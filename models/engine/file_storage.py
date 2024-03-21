@@ -71,8 +71,13 @@ class FileStorage:
                 for key, vl in file_store.items():
                     clss_nm = vl['__class__']
                     clss_nm = models.classes[clss_nm]
-
-                for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+                    FileStorage.__objects[key] = clss_nm(**vl)
         except FileNotFoundError:
             pass
+
+    def close(self):
+        '''
+            Calls reload() for the deserislization
+            of the JSON file object
+        '''
+        self.reload()
